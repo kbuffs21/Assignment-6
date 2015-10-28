@@ -42,20 +42,45 @@ def setPrior(a,b,pollution,smoker):
 def calcMarginal(a,pollution,smoker,cancer,xray,dyspnoea):
 	calc(pollution,smoker,cancer,xray,dyspnoea)
 	if a == 'D':
-		string = 'prob(d=t) = prob(d=t|c=t)*prob(c=t) + prob(d=t|c=f)*prob(c=f)'
-		return string
+		a = 'd'
+		b = '~d'
+		t  = calcMarginal(a,pollution,smoker,cancer,xray,dyspnoea)
+		f  = calcMarginal(b,pollution,smoker,cancer,xray,dyspnoea)
+		print 'prob(d=t) = {0}'.format(t)
+		print 'prob(d=f) = {0}'.format(f)
+		return 'Probability Distribution'
 	elif a == 'X':
-		string = 'prob(x=t) = prob(x=t|c=t)*prob(c=t) + prob(x=t|c=f)*prob(c=f)'
-		return string		
+		a = 'x'
+		b = '~x'
+		t  = calcMarginal(a,pollution,smoker,cancer,xray,dyspnoea)
+		f  = calcMarginal(b,pollution,smoker,cancer,xray,dyspnoea)
+		print 'prob(x=t) = {0}'.format(t)
+		print 'prob(x=f) = {0}'.format(f)
+		return 'Probability Distribution'
 	elif a == 'C':
-		string = 'prob(c=t) = prob(c=t|p=h,s=t)*prob(p=h)*prob(s=t) + prob(c=t|p=h,s=f)*prob(p=h)*prob(s=f) + prob(c=t) = prob(c=t|p=l,s=t)*prob(p=l)*prob(s=t) + prob(c=t) = prob(c=t|p=l,s=f)*prob(p=l)*prob(s=f)'
-		return string
+		a = 'c'
+		b = '~c'
+		t  = calcMarginal(a,pollution,smoker,cancer,xray,dyspnoea)
+		f  = calcMarginal(b,pollution,smoker,cancer,xray,dyspnoea)
+		print 'prob(c=t) = {0}'.format(t)
+		print 'prob(c=f) = {0}'.format(f)
+		return 'Probability Distribution'
 	elif a == 'P':
-		string = 'prob(p=h) = prob(p=h), given'
-		return string
+		a = 'p'
+		b = '~p'
+		t  = calcMarginal(a,pollution,smoker,cancer,xray,dyspnoea)
+		f  = calcMarginal(b,pollution,smoker,cancer,xray,dyspnoea)
+		print 'prob(p=l) = {0}'.format(t)
+		print 'prob(p=h) = {0}'.format(f)
+		return 'Probability Distribution'
 	elif a == 'S':
-		string = 'prob(s=t) = prob(s=t), given'
-		return string
+		a = 's'
+		b = '~s'
+		t  = calcMarginal(a,pollution,smoker,cancer,xray,dyspnoea)
+		f  = calcMarginal(b,pollution,smoker,cancer,xray,dyspnoea)
+		print 'prob(s=t) = {0}'.format(t)
+		print 'prob(s=f) = {0}'.format(f)
+		return 'Probability Distribution'
 	elif a == 'd':
 		return (dyspnoea['t|t']*cancer['t'] + dyspnoea['t|f']*cancer['f'])
 	elif a == '~d':
@@ -96,7 +121,7 @@ def calcJoint(a,pollution,smoker,cancer,xray,dyspnoea):
 	for a in chars:
 		bollock = calcMarginal(a,pollution,smoker,cancer,xray,dyspnoea)
 		if type(bollock) == str:
-			temp = temp + bollock
+			temp = bollock
 		else:
 			product = product * bollock
 	if temp != '':
